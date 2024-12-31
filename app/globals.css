@@ -1,6 +1,7 @@
 :root {
   --background: #ffffff;
   --foreground: #202020;
+  --foreground-light: #404040;
 }
 html,
 body {
@@ -18,6 +19,7 @@ body {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  list-style: none;
 }
 a {
   color: inherit;
@@ -60,9 +62,12 @@ main section:last-child {
 #clicker {
   width: 150px;
   height: 150px;
-  background-color: var(--foreground);
   border-radius: 50%;
   cursor: pointer;
+}
+#clicker img {
+  width: 100%;
+  height: 100%;
 }
 #clicker:hover {
   transform: scale(1.05);
@@ -78,4 +83,38 @@ h1 {
   bottom: 10px;
   right: 50%;
   transform: translateX(50%);
+}
+.upgrades {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+}
+.upgrades-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 10px;
+}
+.upgrades-item {
+  display: flex;
+  gap: 10px;
+  padding: 5px;
+  width: calc(50% - 2.5px);
+  border: 1px solid var(--foreground-light);
+  border-radius: 5px;
+  transition: all 0.2s ease-in-out;
+  align-items: center;
+}
+.upgrades-item:hover {
+  background-color: var(--foreground-light);
+  cursor: pointer;
+}
+.upgrades-item .icon {
+  width: 40px;
+  height: 40px;
+}
+.upgrades-item .name {
+  font-weight: bold;
+  font-size: 20px;
 }
