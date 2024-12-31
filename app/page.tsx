@@ -34,6 +34,30 @@ export default function Home() {
     { id: 10, name: "Bayern", value: 100, price: 1000000, number: 0, url: "/clubs/bayen-munchen.png" },
   ]);
 
+
+  // Local Save
+  useEffect(() => {
+    localStorage.setItem("balloons", JSON.stringify(balloons));
+    localStorage.setItem("balloonsPerClick", JSON.stringify(balloonsPerClick));
+    localStorage.setItem("balloonsPerSecond", JSON.stringify(balloonsPerSecond));
+    localStorage.setItem("upgradesClicks", JSON.stringify(upgradesClicks));
+    localStorage.setItem("upgradesSeconds", JSON.stringify(upgradesSeconds));
+  }, [balloons, balloonsPerClick, balloonsPerSecond, upgradesClicks, upgradesSeconds]);
+
+  useEffect(() => {
+    const storedBalloons = localStorage.getItem("balloons");
+    const storedBalloonsPerClick = localStorage.getItem("balloonsPerClick");
+    const storedBalloonsPerSecond = localStorage.getItem("balloonsPerSecond");
+    const storedUpgradesClicks = localStorage.getItem("upgradesClicks");
+    const storedUpgradesSeconds = localStorage.getItem("upgradesSeconds");
+
+    if (storedBalloons) setBalloons(JSON.parse(storedBalloons));
+    if (storedBalloonsPerClick) setBalloonsPerClick(JSON.parse(storedBalloonsPerClick));
+    if (storedBalloonsPerSecond) setBalloonsPerSecond(JSON.parse(storedBalloonsPerSecond));
+    if (storedUpgradesClicks) setUpgradesClicks(JSON.parse(storedUpgradesClicks));
+    if (storedUpgradesSeconds) setUpgradesSeconds(JSON.parse(storedUpgradesSeconds));
+  }, []);
+
   function setNewBalloons(id: number, price: number, value: number) {
     if (price > balloons) return;
     let newBalloons = balloons - price;
