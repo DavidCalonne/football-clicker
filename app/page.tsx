@@ -12,47 +12,60 @@ interface Upgrade {
 }
 
 function loadData<T>(key: string, defaultValue: T): T {
+  if (typeof window === "undefined") return defaultValue;
   const stored = localStorage.getItem(key);
-  console.log(stored)
   return stored ? JSON.parse(stored) : defaultValue;
 }
 
 function saveData<T>(key: string, value: T): void {
-  localStorage.setItem(key, JSON.stringify(value));
+  if (typeof window !== "undefined") {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
 }
 
 export default function Home() {
-  const [balloons, setBalloons] = useState<number>(() => loadData("balloons", 0));
-  const [balloonsPerClick, setBalloonsPerClick] = useState<number>(() =>loadData("balloonsPerClick", 1));
-  const [balloonsPerSecond, setBalloonsPerSecond] = useState<number>(() =>loadData("balloonsPerSecond", 0));
-  const [upgradesClicks, setUpgradesClicks] = useState<Upgrade[]>(() =>
-    loadData("upgradesClicks", [
-      { id: 1, name: "Beers", value: 0.1, price: 100, number: 0, url: "/clicks/beers.png" },
-      { id: 2, name: "Tickets", value: 0.2, price: 250, number: 0, url: "/clicks/tickets.png" },
-      { id: 3, name: "Tactics", value: 0.5, price: 500, number: 0, url: "/clicks/presentation.png" },
-      { id: 4, name: "Jerseys", value: 1.2, price: 2500, number: 0, url: "/clicks/jersey.png" },
-      { id: 5, name: "Football Boots", value: 2, price: 7000, number: 0, url: "/clicks/football-boots.png" },
-      { id: 6, name: "Water Bottles", value: 5, price: 20000, number: 0, url: "/clicks/water-bottle.png" },
-      { id: 7, name: "Goal Posts", value: 10, price: 50000, number: 0, url: "/clicks/goal-post.png" },
-      { id: 8, name: "League", value: 25, price: 100000, number: 0, url: "/clicks/league.png" },
-      { id: 9, name: "Goaaaal", value: 50, price: 250000, number: 0, url: "/clicks/goal.png" },
-      { id: 10, name: "Television", value: 100, price: 1000000, number: 0, url: "/clicks/television.png" },
-    ])
-  );
-  const [upgradesSeconds, setUpgradesSeconds] = useState<Upgrade[]>(() =>
-    loadData("upgradesSeconds", [
-      { id: 1, name: "Barcelona", value: 0.1, price: 100, number: 0, url: "/clubs/barcelona.png" },
-      { id: 2, name: "Real Madrid", value: 0.2, price: 250, number: 0, url: "/clubs/real-madrid.png" },
-      { id: 3, name: "OM", value: 0.5, price: 500, number: 0, url: "/clubs/olympique-de-marseille.png" },
-      { id: 4, name: "PSG", value: 1.2, price: 2500, number: 0, url: "/clubs/paris-saint-germain.png" },
-      { id: 5, name: "Arsenal", value: 2, price: 7000, number: 0, url: "/clubs/arsenal.png" },
-      { id: 6, name: "Manchester City", value: 5, price: 20000, number: 0, url: "/clubs/manchester-city.png" },
-      { id: 7, name: "Inter Milano", value: 10, price: 50000, number: 0, url: "/clubs/internazionale-milano.png" },
-      { id: 8, name: "Juventus", value: 25, price: 100000, number: 0, url: "/clubs/juventus.png" },
-      { id: 9, name: "Dortmund", value: 50, price: 250000, number: 0, url: "/clubs/borusia-dortmund.png" },
-      { id: 10, name: "Bayern", value: 100, price: 1000000, number: 0, url: "/clubs/bayen-munchen.png" },
-    ])
-  );
+  const [isClient, setIsClient] = useState(false);
+
+  const [balloons, setBalloons] = useState<number>(0);
+  const [balloonsPerClick, setBalloonsPerClick] = useState<number>(1);
+  const [balloonsPerSecond, setBalloonsPerSecond] = useState<number>(0);
+  const [upgradesClicks, setUpgradesClicks] = useState<Upgrade[]>([]);
+  const [upgradesSeconds, setUpgradesSeconds] = useState<Upgrade[]>([]);
+
+  useEffect(() => {
+    setIsClient(true);
+    setBalloons(loadData("balloons", 0));
+    setBalloonsPerClick(loadData("balloonsPerClick", 1));
+    setBalloonsPerSecond(loadData("balloonsPerSecond", 0));
+    setUpgradesClicks(
+      loadData("upgradesClicks", [
+        { id: 1, name: "Beers", value: 0.1, price: 100, number: 0, url: "/clicks/beers.png" },
+        { id: 2, name: "Tickets", value: 0.2, price: 250, number: 0, url: "/clicks/tickets.png" },
+        { id: 3, name: "Tactics", value: 0.5, price: 500, number: 0, url: "/clicks/presentation.png" },
+        { id: 4, name: "Jerseys", value: 1.2, price: 2500, number: 0, url: "/clicks/jersey.png" },
+        { id: 5, name: "Football Boots", value: 2, price: 7000, number: 0, url: "/clicks/football-boots.png" },
+        { id: 6, name: "Water Bottles", value: 5, price: 20000, number: 0, url: "/clicks/water-bottle.png" },
+        { id: 7, name: "Goal Posts", value: 10, price: 50000, number: 0, url: "/clicks/goal-post.png" },
+        { id: 8, name: "League", value: 25, price: 100000, number: 0, url: "/clicks/league.png" },
+        { id: 9, name: "Goaaaal", value: 50, price: 250000, number: 0, url: "/clicks/goal.png" },
+        { id: 10, name: "Television", value: 100, price: 1000000, number: 0, url: "/clicks/television.png" },
+      ])
+    );
+    setUpgradesSeconds(
+      loadData("upgradesSeconds", [
+        { id: 1, name: "Barcelona", value: 0.1, price: 100, number: 0, url: "/clubs/barcelona.png" },
+        { id: 2, name: "Real Madrid", value: 0.2, price: 250, number: 0, url: "/clubs/real-madrid.png" },
+        { id: 3, name: "OM", value: 0.5, price: 500, number: 0, url: "/clubs/olympique-de-marseille.png" },
+        { id: 4, name: "PSG", value: 1.2, price: 2500, number: 0, url: "/clubs/paris-saint-germain.png" },
+        { id: 5, name: "Arsenal", value: 2, price: 7000, number: 0, url: "/clubs/arsenal.png" },
+        { id: 6, name: "Manchester City", value: 5, price: 20000, number: 0, url: "/clubs/manchester-city.png" },
+        { id: 7, name: "Inter Milano", value: 10, price: 50000, number: 0, url: "/clubs/internazionale-milano.png" },
+        { id: 8, name: "Juventus", value: 25, price: 100000, number: 0, url: "/clubs/juventus.png" },
+        { id: 9, name: "Dortmund", value: 50, price: 250000, number: 0, url: "/clubs/borusia-dortmund.png" },
+        { id: 10, name: "Bayern", value: 100, price: 1000000, number: 0, url: "/clubs/bayen-munchen.png" },
+      ])
+    );
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -61,11 +74,11 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [balloonsPerSecond]);
 
-  useEffect(() => saveData("balloons", balloons), [balloons]);
-  useEffect(() => saveData("balloonsPerClick", balloonsPerClick), [balloonsPerClick]);
-  useEffect(() => saveData("balloonsPerSecond", balloonsPerSecond), [balloonsPerSecond]);
-  useEffect(() => saveData("upgradesClicks", upgradesClicks), [upgradesClicks]);
-  useEffect(() => saveData("upgradesSeconds", upgradesSeconds), [upgradesSeconds]);
+  useEffect(() => {if (isClient) {saveData("balloons", balloons)}}, [balloons]);
+  useEffect(() => {if (isClient) {saveData("balloonsPerClick", balloonsPerClick)}}, [balloonsPerClick]);
+  useEffect(() => {if (isClient) {saveData("balloonsPerSecond", balloonsPerSecond)}}, [balloonsPerSecond]);
+  useEffect(() => {if (isClient) {saveData("upgradesClicks", upgradesClicks)}}, [upgradesClicks]);
+  useEffect(() => {if (isClient) {saveData("upgradesSeconds", upgradesSeconds)}}, [upgradesSeconds]);
 
   function setNewBalloons(id: number, price: number, value: number): void {
     if (price > balloons) return;
