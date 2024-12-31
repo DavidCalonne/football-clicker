@@ -64,13 +64,12 @@ export default function Home() {
     }));
   }
 
-  // Mise à jour automatique toutes les secondes
   useEffect(() => {
     const interval = setInterval(() => {
       setBalloons((prev) => parseFloat((prev + balloonsPerSecond).toFixed(2)));
     }, 1000);
 
-    return () => clearInterval(interval); // Nettoyer l'intervalle
+    return () => clearInterval(interval);
   }, [balloonsPerSecond]);
 
   return (
