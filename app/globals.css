@@ -1,21 +1,12 @@
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #202020;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
 }
-
 body {
   color: var(--foreground);
   background: var(--background);
@@ -23,20 +14,68 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
-
 a {
   color: inherit;
   text-decoration: none;
 }
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+main {
+  display: flex;
+}
+main section {
+  height: 100dvh;
+  position: relative;
+}
+main section:first-child {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+main section:last-child {
+  width: 60%;
+  background-color: var(--foreground);
+  color: var(--background);
+  padding: 20px;
+}
+#stats {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+}
+#balloons {
+  font-size: 20px;
+}
+#balloons_per {
+  font-size: 14px;
+}
+#clicker {
+  width: 150px;
+  height: 150px;
+  background-color: var(--foreground);
+  border-radius: 50%;
+  cursor: pointer;
+}
+#clicker:hover {
+  transform: scale(1.05);
+}
+h1 {
+  position: absolute;
+  top: 20px;
+  right: 50%;
+  transform: translateX(50%);
+}
+#credits {
+  position: absolute;
+  bottom: 10px;
+  right: 50%;
+  transform: translateX(50%);
 }
