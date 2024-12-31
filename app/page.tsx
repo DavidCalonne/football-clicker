@@ -130,6 +130,9 @@ export default function Home() {
         >
           <img src="/football.png" alt="clicker" />
         </div>
+        <a href="https://x.com/dev_davidJs" target="_blank" id="credits">
+          dev_davidJs
+        </a>
       </section>
       <section className="upgrades">
         <article>
